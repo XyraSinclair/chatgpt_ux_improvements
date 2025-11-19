@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Prompt Navigator",
+  "short_name": "PromptNav",
+  "version": "1.0.0",
+  "description": "Adds keyboard shortcuts that jump to the next or previous user prompt in ChatGPT conversations.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*"
+  ],
+  "background": {
+    "service_worker": "promptNavigatorCommandRouter.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js": [
+        "promptNavigatorContent.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "jump-to-prev-user-prompt": {
+      "suggested_key": {
+        "default": "Alt+Shift+Up",
+        "mac": "Alt+Shift+Up"
+      },
+      "description": "Jump to the previous user prompt"
+    },
+    "jump-to-next-user-prompt": {
+      "suggested_key": {
+        "default": "Alt+Shift+Down",
+        "mac": "Alt+Shift+Down"
+      },
+      "description": "Jump to the next user prompt"
+    }
+  }
+}
