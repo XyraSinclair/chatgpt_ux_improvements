@@ -193,26 +193,31 @@
       if (!prompts.length) return -1;
 
       const context = this._getScrollContext();
-      const viewportCenter = context.scrollTop + (context.viewHeight / 2);
+      // We define the "active" prompt as the last one whose top is above the viewport center.
+      // This creates a natural "scope" feeling: you are "in" prompt X until you scroll past prompt X+1.
+      const thresholdY = context.scrollTop + (context.viewHeight / 2);
 
-      // Find the prompt closest to the center
-      let closestIndex = -1;
-      let minDiff = Infinity;
+      let activeIndex = -1;
 
-      prompts.forEach((el, index) => {
-        const rect = el.getBoundingClientRect();
+      for (let i = 0; i < prompts.length; i++) {
+        const rect = prompts[i].getBoundingClientRect();
+        // Calculate absolute Y of the prompt top
         const topY = context.scrollTop + (rect.top - context.containerTop);
-        const bottomY = topY + rect.height;
-        const centerY = (topY + bottomY) / 2;
 
-        const diff = Math.abs(centerY - viewportCenter);
-        if (diff < minDiff) {
-          minDiff = diff;
-          closestIndex = index;
+        if (topY <= thresholdY) {
+          activeIndex = i;
+        } else {
+          // Since prompts are sorted, once we pass the threshold, we can stop.
+          break;
         }
-      });
+      }
 
-      return closestIndex;
+      // If we are before the first prompt (activeIndex === -1), 
+      // we might still want to show 1 if it's close, or 0. 
+      // Let's stick to -1 (which displays as "- / N") or 0 if the user prefers.
+      // But usually the first prompt is at the top, so it will be active.
+
+      return activeIndex;
     }
 
     _getScrollContext() {
@@ -624,17 +629,23 @@
     }
 
     _setupScrollListener() {
-      // We need to listen to scroll on the correct container.
-      // Since the container can change (window vs main), we might need to attach to window 
-      // and capture, or attach to both.
-      // Window scroll events capture most things.
-      window.addEventListener('scroll', () => {
-        if (this.scrollTimer) return;
-        this.scrollTimer = setTimeout(() => {
-          this.updateUI();
-          this.scrollTimer = null;
-        }, 100);
-      }, { capture: true, passive: true });
+      // We attach to window with capture to catch most events.
+      window.addEventListener('scroll', () => this._onScroll(), { capture: true, passive: true });
+
+      // We also try to attach to the main conversation container directly if possible,
+      // just in case capture doesn't work as expected in some contexts.
+      const main = this.detector._getConversationMain();
+      if (main) {
+        main.addEventListener('scroll', () => this._onScroll(), { passive: true });
+      }
+    }
+
+    _onScroll() {
+      if (this.scrollTimer) return;
+      this.scrollTimer = setTimeout(() => {
+        this.updateUI();
+        this.scrollTimer = null;
+      }, 100);
     }
   }
 
