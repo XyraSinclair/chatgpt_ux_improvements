@@ -35,15 +35,15 @@
   "commands": {
     "jump-to-prev-user-prompt": {
       "suggested_key": {
-        "default": "Alt+Shift+Up",
-        "mac": "Alt+Shift+Up"
+        "default": "Alt+E",
+        "mac": "Alt+E"
       },
       "description": "Jump to the previous user prompt"
     },
     "jump-to-next-user-prompt": {
       "suggested_key": {
-        "default": "Alt+Shift+Down",
-        "mac": "Alt+Shift+Down"
+        "default": "Alt+D",
+        "mac": "Alt+D"
       },
       "description": "Jump to the next user prompt"
     }
