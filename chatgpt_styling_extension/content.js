@@ -102,7 +102,8 @@
 
             const role = determineRole(turn, index);
             if (role === 'user') {
-                target.classList.add(USER_CLASS);
+                // User styling removed as per request
+                // target.classList.add(USER_CLASS);
             } else {
                 target.classList.add(MODEL_CLASS);
             }
