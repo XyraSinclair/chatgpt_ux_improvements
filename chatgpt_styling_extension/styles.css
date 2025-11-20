@@ -7,4 +7,5 @@
   border-radius: 12px !important;
   box-shadow: 0 0 15px rgba(137, 196, 244, 0.2) !important;
   transition: all 0.3s ease;
+  padding: 5px !important;
 }
