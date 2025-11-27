@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatGPT UX Suite</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <div class="logo-section">
+        <div class="logo-icon"></div>
+        <div class="title-group">
+          <h1>ChatGPT UX Suite</h1>
+          <span class="tagline">for the ecology 🍃</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="settings-list">
+      <div class="setting-card" data-feature="tokenCounter">
+        <div class="setting-info">
+          <div class="setting-icon icon-tokens"></div>
+          <div class="setting-text">
+            <h3>Token Counter</h3>
+            <p>Track conversation token usage in real-time</p>
+          </div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-tokenCounter" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-card" data-feature="promptNavigator">
+        <div class="setting-info">
+          <div class="setting-icon icon-nav"></div>
+          <div class="setting-text">
+            <h3>Prompt Navigator</h3>
+            <p>Jump between prompts with <kbd>Alt+E</kbd> / <kbd>Alt+D</kbd></p>
+          </div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-promptNavigator" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-card" data-feature="responseStyling">
+        <div class="setting-info">
+          <div class="setting-icon icon-style"></div>
+          <div class="setting-text">
+            <h3>Response Styling</h3>
+            <p>Visual highlighting for model responses</p>
+          </div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-responseStyling" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-card" data-feature="sessionTracker">
+        <div class="setting-info">
+          <div class="setting-icon icon-time"></div>
+          <div class="setting-text">
+            <h3>Session Time Tracker</h3>
+            <p>Shows chat start and last prompt timestamps</p>
+          </div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-sessionTracker" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-card" data-feature="contextCollector">
+        <div class="setting-info">
+          <div class="setting-icon icon-collect"></div>
+          <div class="setting-text">
+            <h3>Context Collector</h3>
+            <p>Select and copy messages for export</p>
+          </div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-contextCollector" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-card" data-feature="soundNotification">
+        <div class="setting-info">
+          <div class="setting-icon icon-sound"></div>
+          <div class="setting-text">
+            <h3>Sound Notification</h3>
+            <p>Play a chime when response completes</p>
+          </div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-soundNotification">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="chime-selector" id="chime-selector">
+        <span class="chime-label">Chime:</span>
+        <div class="chime-options">
+          <button class="chime-option" data-chime="aurora" title="Aurora - ethereal, very low">
+            <span class="chime-name">Aurora</span>
+          </button>
+          <button class="chime-option" data-chime="ocean" title="Ocean - rolling, calm">
+            <span class="chime-name">Ocean</span>
+          </button>
+          <button class="chime-option" data-chime="velvet" title="Velvet - smooth, gentle">
+            <span class="chime-name">Velvet</span>
+          </button>
+          <button class="chime-option" data-chime="chime" title="Chime - clear, bright">
+            <span class="chime-name">Chime</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <section class="license-section" id="license-section">
+      <div class="license-header">
+        <span class="license-icon">&#8593;&#8595;</span>
+        <span class="license-title">Rapid Prompt Navigator</span>
+        <span class="license-badge" id="license-badge">Free</span>
+      </div>
+      <div class="license-status" id="license-status">
+        <span id="usage-text">12 navigations remaining</span>
+      </div>
+      <div class="license-input-group" id="license-input-group">
+        <input type="text" id="license-key-input" placeholder="Enter license key" spellcheck="false">
+        <button id="activate-btn">Activate</button>
+      </div>
+      <div class="license-actions">
+        <a href="https://buy.polar.sh/polar_cl_0uVlLJwJHRB0GQZsEGHWD7kljnL0qZwDtILq71MNzF8" target="_blank" class="upgrade-link" id="upgrade-link">
+          Unlock unlimited for $3
+        </a>
+      </div>
+    </section>
+
+    <footer class="popup-footer">
+      <span class="version">v1.0.0</span>
+      <a href="https://buymeacoffee.com/xyra" target="_blank" class="feature-request-link" title="Support or request features">
+        Feature request? ☕ Buy Me a Coffee
+      </a>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
