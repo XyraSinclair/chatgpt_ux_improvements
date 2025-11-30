@@ -764,25 +764,54 @@
     }
 
     function findTargetAnchor(anchors, context, direction) {
-      const viewportCenter = context.scrollTop + (context.viewHeight / 2);
+      const currentScroll = context.scrollTop;
+      const scrollOffset = context.viewHeight * 0.15;
+
+      // Helper to calculate what scroll position an anchor would result in
+      function getTargetScroll(anchor) {
+        if (anchor.kind === 'chat-bottom') {
+          return (context.isWindow ? document.documentElement.scrollHeight : context.container.scrollHeight) - context.viewHeight;
+        } else if (anchor.kind === 'top') {
+          return anchor.y - scrollOffset;
+        } else {
+          return anchor.y - context.viewHeight + context.viewHeight * 0.2;
+        }
+      }
+
       let currentIndex = -1;
       if (lastAnchor) {
         currentIndex = anchors.findIndex((a) => a.element === lastAnchor.element && a.kind === lastAnchor.kind);
       }
+
       if (currentIndex === -1) {
-        let minDiff = Infinity;
-        anchors.forEach((a, i) => {
-          const diff = Math.abs(a.y - viewportCenter);
-          if (diff < minDiff) {
-            minDiff = diff;
-            currentIndex = i;
+        // No valid last anchor - find target directly based on direction
+        // This guarantees we always scroll in the correct direction
+        const tolerance = 10; // pixels
+
+        if (direction === 'previous') {
+          // Find the last anchor that would scroll us UP (target scroll < current scroll)
+          for (let i = anchors.length - 1; i >= 0; i--) {
+            if (getTargetScroll(anchors[i]) < currentScroll - tolerance) {
+              return anchors[i];
+            }
           }
-        });
+          return null; // No anchor above
+        } else {
+          // Find the first anchor that would scroll us DOWN (target scroll > current scroll)
+          for (let i = 0; i < anchors.length; i++) {
+            if (getTargetScroll(anchors[i]) > currentScroll + tolerance) {
+              return anchors[i];
+            }
+          }
+          return null; // No anchor below
+        }
       }
+
+      // Have a valid lastAnchor - use sequential navigation
       if (direction === 'next') {
-        return currentIndex >= anchors.length - 1 ? anchors[anchors.length - 1] : anchors[currentIndex + 1];
+        return currentIndex >= anchors.length - 1 ? null : anchors[currentIndex + 1];
       } else {
-        return currentIndex <= 0 ? anchors[0] : anchors[currentIndex - 1];
+        return currentIndex <= 0 ? null : anchors[currentIndex - 1];
       }
     }
 
